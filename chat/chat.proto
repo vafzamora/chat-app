@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package="chat-app/chat";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+message Message {
+    string sender = 1;
+    string content = 2;
+    google.protobuf.Timestamp timestamp = 3;
+}
+
+message Chat {
+    repeated Message messages = 1;
+}
+
+message Client{
+    string id = 1; 
+}
+
+service ChatService {
+    rpc Connect(Client) returns (stream Message) {}
+    rpc SendMessage(Message) returns (google.protobuf.Empty) {}
+}
